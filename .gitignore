@@ -1,0 +1,20 @@
+# Environment variables
+.env
+
+# Build / Cache files
+dist/
+build/
+.cache/
+
+# Node dependencies (if using npm or vite)
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo

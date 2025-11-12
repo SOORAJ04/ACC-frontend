@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dealer Management & Engineer Work Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login/Register Screen -->
+    <div id="auth-screen" class="auth-container">
+        <div class="auth-box">
+            <div class="auth-header">
+                <h1>🔐 Work Tracker System</h1>
+                <p>Manage dealers and track engineering projects</p>
+            </div>
+            
+            <div id="login-form" class="auth-form active">
+                <h2>Login</h2>
+                <div class="form-group">
+                    <label>Usermail:</label>
+                    <input type="text" id="login-username" placeholder="Enter usermail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" id="login-password" placeholder="Enter password" required>
+                </div>
+                <button class="btn btn-primary" onclick="handleLogin()">Login</button>
+                <p class="auth-switch">Don't have an account? <a href="#" onclick="showRegister()">Register</a></p>
+            </div>
+
+            <div id="register-form" class="auth-form">
+                <h2>Register</h2>
+                <div class="form-group">
+                    <label>Usermail:</label>
+                    <input type="text" id="register-username" placeholder="Choose usermail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" id="register-password" placeholder="Choose password" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password:</label>
+                    <input type="password" id="register-confirm" placeholder="Confirm password" required>
+                </div>
+                <button class="btn btn-primary" onclick="handleRegister()">Register</button>
+                <p class="auth-switch">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app-screen" class="app-container hidden">
+        <div class="app-header">
+            <h1>🏗️ Dealer Management & Engineer Work Tracker</h1>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="exportMyData()">⬇️ Backup My Data</button>
+                <label class="btn btn-secondary" style="cursor:pointer;">
+                    ⬆️ Restore My Data
+                    <input id="import-file-input" type="file" accept="application/json" onchange="importMyData(event)" style="display:none;">
+                </label>
+                <button class="btn btn-secondary" onclick="showDashboard()">📊 Dashboard</button>
+                <button class="btn btn-secondary" onclick="handleLogout()">🚪 Logout</button>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard-section" class="dashboard-container">
+            <div class="dashboard-header">
+                <h2>📊 Analytics Dashboard</h2>
+                <p>Overview of your dealers, engineers, and projects</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🏢</div>
+                    <div class="stat-info">
+                        <h3 id="total-dealers">0</h3>
+                        <p>Total Dealers</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👷</div>
+                    <div class="stat-info">
+                        <h3 id="total-engineers">0</h3>
+                        <p>Total Engineers</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-info">
+                        <h3 id="total-projects">0</h3>
+                        <p>Total Projects</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-info">
+                        <h3 id="pending-projects">0</h3>
+                        <p>Pending Projects</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>Project Completion Status</h3>
+                    <div class="chart-container">
+                        <canvas id="completion-chart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>Pending Tasks by Project</h3>
+                    <div class="chart-container">
+                        <canvas id="pending-chart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>Visited vs Not Visited</h3>
+                    <div class="chart-container">
+                        <canvas id="visited-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-actions">
+                <button class="btn btn-primary" onclick="showMainApp()">View All Dealers</button>
+            </div>
+        </div>
+
+        <!-- Main App Section -->
+        <div id="main-app-section" class="main-app">
+            <div class="action-bar">
+                <button class="btn btn-add" onclick="showAddDealerForm()">+ Add Dealer</button>
+            </div>
+            <div id="dealers-container"></div>
+        </div>
+    </div>
+
+    <!-- Add Dealer Modal -->
+    <div id="addDealerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Dealer</h2>
+                <button class="close-btn" onclick="closeModal('addDealerModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Dealer Name:</label>
+                    <input type="text" id="dealerNameInput" placeholder="Enter dealer name">
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-add" onclick="addDealer()">Save</button>
+                    <button class="btn btn-delete" onclick="closeModal('addDealerModal')">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Work Tracker Modal -->
+    <div id="workTrackerModal" class="modal">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h2 id="workTrackerTitle">Work Tracker</h2>
+                <button class="close-btn" onclick="closeWorkTracker()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="workTrackerContent"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Backend URL Configuration -->
+    <!-- For production: Replace with your backend URL (e.g., https://yourproject.onrender.com) -->
+    <!-- For development: Keep as http://localhost:10000 -->
+    <script>window.BACKEND_URL = 'http://localhost:10000';</script>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
