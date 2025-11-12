@@ -3,7 +3,7 @@
 
 /* ===== utils.js ===== */
 // Utility + API layer (No localStorage)
-let BACKEND_URL = "http://localhost:10000"; // Will be updated by detectBackendUrl()
+let BACKEND_URL = "https://acc-backend-n4be.onrender.com/"; // Will be updated by detectBackendUrl()
 let AUTH_TOKEN = null;
 let CURRENT_USERNAME = null;
 let dealersState = {}; // single source of truth in memory
