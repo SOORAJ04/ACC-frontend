@@ -920,9 +920,11 @@ function renderDealers() {
                     <h3>${escapeHtml(dealerName)}</h3>
                     <div>
                         <button class="btn btn-edit btn-small" onclick="event.stopPropagation(); editDealer('${escapeHtml(dealerName)}')">Edit</button>
-                        <!-- <button class="btn btn-add btn-small" onclick="event.stopPropagation(); showAddCategoryForm('${escapeHtml(dealerName)}')">+ Category</button>-->
+                       <!-- <button class="btn btn-add btn-small" onclick="event.stopPropagation(); showAddCategoryForm('${escapeHtml(dealerName)}')">+ Category</button> -->
+
                         <button class="btn btn-delete btn-small" onclick="event.stopPropagation(); deleteDealer('${escapeHtml(dealerName)}')">Delete</button>
                     </div>
+                    
                 </div>
                 <div class="card-body" id="dealer-${escapeHtml(dealerName)}">
                     ${renderCategories(dealerName, dealer)}
